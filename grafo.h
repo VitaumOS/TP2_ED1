@@ -4,11 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct{ //Criação da struct
 
-    int numCidades;
-    int **matrizG;
-} GrafoPonderado;
+typedef struct grafo GrafoPonderado;
+
+
+void imprimeOrdenado(GrafoPonderado*);
 
 GrafoPonderado* alocarGrafo();
 void desalocarGrafo(GrafoPonderado *);
