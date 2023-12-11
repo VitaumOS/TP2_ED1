@@ -85,6 +85,13 @@ void ordenaLista(GrafoPonderado** gp) { //Com as listas criadas, ele ordena cada
                     aux1->item = aux2;
     
                 }
+                else if(aux->item->dist == aux1->item->dist){
+                    if(aux->item->cidade > aux1->item->cidade){
+                        aux2 = aux->item;
+                        aux->item = aux1->item;
+                        aux1->item = aux2;
+                    }
+                }
                 aux1 = aux1->prox;
             }
             aux = aux->prox;
@@ -95,7 +102,7 @@ void ordenaLista(GrafoPonderado** gp) { //Com as listas criadas, ele ordena cada
 void imprimeOrdenado(GrafoPonderado* gp){//Imprime os vetores de listas encadeadas
     Celula* aux;
     for(int i=0; i<gp->numCidades; i++){
-        printf("Adjacencias do verice %d: ", i);
+        printf("Adjacencias do vertice %d: ", i);
         aux = gp->cabeca[i]->prox;
         while (aux != NULL) {
             printf("(%d, %d) -> ", aux->item->cidade, aux->item->dist);
@@ -103,4 +110,63 @@ void imprimeOrdenado(GrafoPonderado* gp){//Imprime os vetores de listas encadead
         }
         printf("NULL\n");
     }
+}
+
+int* alocaCaminho(int tamanho){
+    int* caminho = (int*) malloc((tamanho + 1) * sizeof(int));
+    return caminho;
+}
+
+void imprimeCaminho(int* caminho, int numCidades, int melhor_distancia){
+    printf("Melhor caminho:");
+    for (int i = 0; i < numCidades; i++){
+        printf(" %d", caminho[i]);
+    }
+    printf(" 0\nMelhor distancia: %d\n", melhor_distancia);
+}
+
+void encontraCaminho(GrafoPonderado* grafo, int* caminho, int* melhor_caminho, int* melhor_distancia,int percorrido){
+    if(percorrido == grafo->numCidades){ // condição de fim de caminho
+        caminho[percorrido] = caminho[0];
+        int distancia = calcula_distancia(grafo, caminho);
+        if(distancia < *melhor_distancia){
+            *melhor_distancia = distancia;
+            for(int i = 0; i < grafo->numCidades; i++){
+                melhor_caminho[i] = caminho[i];
+            }
+        }
+    } else {
+        for (int i = 0; i < grafo->numCidades; i++){            // "Gera" a proxima cidade
+            if(!caminho_contem_cidade(caminho, percorrido, i)){ // Verifica se a cidade já está presente
+                caminho[percorrido] = i;                        // Inclui cidade no caminho  
+                encontraCaminho(grafo, caminho, melhor_caminho, melhor_distancia, percorrido + 1);// Comando de recursão
+            }
+        }
+        
+
+    }
+}
+
+int caminho_contem_cidade(int* caminho, int tam, int cidade){
+    for (int i = 0; i < tam; i++){
+        if (caminho[i] == cidade)
+            return 1;
+    }
+    return 0;
+}
+
+int calcula_distancia(GrafoPonderado* grafo, int* caminho){
+    int distancia = 0;
+    Celula* temp;
+    for (int i = 0; i < grafo->numCidades; i++){ //Distancia atual -> proximo
+        temp = grafo->cabeca[caminho[i]]->prox;
+        while(temp->item->cidade != caminho[i + 1]){
+            temp = temp->prox;
+        }
+        if(temp->item->dist == 0){
+            distancia += 9999;
+        }
+        distancia += temp->item->dist;
+    }
+    return distancia;
 }
