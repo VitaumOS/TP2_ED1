@@ -38,7 +38,8 @@ void ordenaLista(GrafoPonderado**);
 void ListaDestroi(Celula** );
 void desalocarGrafo(GrafoPonderado **);
 void leGrafo(GrafoPonderado**);
-void encontraCaminho(GrafoPonderado* , int*, int*, int*, int);
+
+void encontraCaminho(GrafoPonderado*, int*, int*, int*, int);
 void imprimeCaminho(int*, int, int);
 
 // Funções auxiliares
