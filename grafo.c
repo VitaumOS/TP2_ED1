@@ -69,7 +69,7 @@ void ordenaLista(GrafoPonderado** gp) { //Com as listas criadas, ele ordena cada
     int n=(*gp)->numCidades;
     Celula *aux,*aux1;
     Item *aux2;
-    for(int i=0; i<n; i++){
+    for(int i=0; i<n; i++){//Esse for altera qual lista encadeada que vai ser ordenada
         if ((*gp)->cabeca[i]->prox == NULL) {
             return;
         }
@@ -117,7 +117,7 @@ int* alocaCaminho(int tamanho){
     return caminho;
 }
 
-void imprimeCaminho(int* caminho, int numCidades, int melhor_distancia){
+void imprimeCaminho(int* caminho, int numCidades, int melhor_distancia){//Imprime o melhor caminho e a melhor distancia
     printf("Melhor caminho:");
     for (int i = 0; i < numCidades; i++){
         printf(" %d", caminho[i]);
