@@ -11,14 +11,12 @@ int main(){
     
     int* caminho = alocaCaminho(n);
     int* melhor_caminho = alocaCaminho(n);
-    
     int melhor_distancia = 9999;
-
     melhor_caminho[0] = caminho[0] = 0;
 
     leGrafo(&gp);
     ordenaLista(&gp);
-    
+
     encontraCaminho(gp, caminho, melhor_caminho, &melhor_distancia, 1);
 
     imprimeOrdenado(gp);
